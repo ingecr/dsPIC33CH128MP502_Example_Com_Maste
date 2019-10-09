@@ -53,12 +53,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "reset.h"
-#include "slave_typedef.h"
-#include "slave1.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "delay.h"
 #include "watchdog.h"
+#include "slave_typedef.h"
+#include "slave1.h"
+#include "delay.h"
 
 #ifndef _XTAL_FREQ
 #define _XTAL_FREQ  150000000UL

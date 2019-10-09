@@ -62,7 +62,7 @@
 #pragma config MBXM15 = S2M    //Mailbox 15 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
 
 // FMBXHS1
-#pragma config MBXHSA = MBX2    //Mailbox handshake protocol block A register assignment->MSIxMBXD2 assigned to mailbox handshake protocol block A
+#pragma config MBXHSA = MBX0    //Mailbox handshake protocol block A register assignment->MSIxMBXD0 assigned to mailbox handshake protocol block A
 #pragma config MBXHSB = MBX15    //Mailbox handshake protocol block B register assignment->MSIxMBXD15 assigned to mailbox handshake protocol block B
 #pragma config MBXHSC = MBX15    //Mailbox handshake protocol block C register assignment->MSIxMBXD15 assigned to mailbox handshake protocol block C
 #pragma config MBXHSD = MBX15    //Mailbox handshake protocol block D register assignment->MSIxMBXD15 assigned to mailbox handshake protocol block D
@@ -86,7 +86,7 @@
 // FS1DEVOPT
 #pragma config S1ALTI2C1 = OFF    //Alternate I2C1 Pin bit->I2C1 mapped to SDA1/SCL1 pins
 #pragma config S1SPI1PIN = PPS    //S1 SPI1 Pin Select bit->Slave SPI1 uses I/O remap (PPS) pins
-#pragma config S1SSRE = ON    //Slave Slave Reset Enable->Slave generated resets will reset the Slave Enable Bit in the MSI module
+#pragma config S1SSRE = OFF    //Slave Slave Reset Enable->Slave generated resets will not reset the Slave Enable Bit in the MSI module
 #pragma config S1MSRE = ON    //Master Slave Reset Enable->The master software oriented RESET events (RESET Op-Code, Watchdog timeout, TRAP reset, illegalInstruction) will also cause the slave subsystem to reset.
 
 // FS1ICD
@@ -100,7 +100,7 @@
 
 // FS1OSC
 #pragma config S1OSCIOFNC = ON    //Slave OSC2 Pin Function bit->OSC2 is general purpose digital I/O pin
-#pragma config S1FCKSM = CSECMD    //Clock Switching Mode bits->Clock switching is enabled,Fail-safe Clock Monitor is disabled
+#pragma config S1FCKSM = CSECME    //Clock Switching Mode bits->Both Clock switching and Fail-safe Clock Monitor are enabled
 #pragma config S1PLLKEN = S1PLLKEN_ON    //S1PLLKEN->S1PLLKEN_ON
 
 // FS1ALTREG
@@ -110,7 +110,7 @@
 #pragma config S1CTXT4 = OFF    //Specifies Interrupt Priority Level (IPL) Associated to Alternate Working Register 4 bits->Not Assigned
 
 // FS1WDT
-#pragma config S1RWDTPS = PS1048576    //Run Mode Watchdog Timer Post Scaler select bits->1:1048576
+#pragma config S1RWDTPS = PS512    //Run Mode Watchdog Timer Post Scaler select bits->1:512
 #pragma config S1RCLKSEL = LPRC    //Watchdog Timer Clock Select bits->Always use LPRC
 #pragma config S1WINDIS = ON    //Watchdog Timer Window Enable bit->Watchdog Timer operates in Non-Window mode
 #pragma config S1WDTWIN = WIN25    //Watchdog Timer Window Select bits->WDT Window is 25% of WDT period
@@ -289,8 +289,6 @@ bool SLAVE1_ProtocolARead(ProtocolA_DATA *pData)
     if(SLAVE1_ProtocolAIsFull())
     {
         pData->ProtocolA[0] = MSI1MBX0D;
-        pData->ProtocolA[1] = MSI1MBX1D;
-        pData->ProtocolA[2] = MSI1MBX2D;
 
         status = true;
     }

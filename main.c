@@ -67,7 +67,7 @@ int main(void)
     dataReceive.ProtocolA[0] = 0;
  
     
-    //printf("\fComunication Control \r\n");
+    printf("\fComunication Control \r\n");
  
     //Wait for interrupt from slave
     while(!SLAVE1_IsInterruptRequested());
@@ -91,7 +91,7 @@ int main(void)
             //printf("\fValue:%d(c)\r\n",dataReceive.ProtocolA[0]);
             //DELAY_milliseconds(40);
             SLAVE1_InterruptRequestAcknowledgeComplete();  
-            if ((dataReceive.ProtocolA[1] & 0xFF) > 5)
+            if ((dataReceive.ProtocolA[0] & 0xFF) > 5)
             {
                 LED6_SetHigh();
             }

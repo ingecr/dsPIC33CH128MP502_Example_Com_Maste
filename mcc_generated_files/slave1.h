@@ -76,7 +76,7 @@
 
 typedef struct ProtocolA_DATA_STRUCT
 {
-    uint16_t    ProtocolA[3];
+    uint16_t    ProtocolA[1];
 
 } ProtocolA_DATA; 
         

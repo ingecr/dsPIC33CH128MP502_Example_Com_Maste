@@ -70,7 +70,7 @@
 #pragma config XTBST = ENABLE    //XT Boost->Boost the kick-start
 
 // FWDT
-#pragma config RWDTPS = PS1048576    //Run Mode Watchdog Timer Post Scaler select bits->1:1048576
+#pragma config RWDTPS = PS65536    //Run Mode Watchdog Timer Post Scaler select bits->1:65536
 #pragma config RCLKSEL = LPRC    //Watchdog Timer Clock Select bits->Always use LPRC
 #pragma config WINDIS = OFF    //Watchdog Timer Window Enable bit->Watchdog Timer in Window mode
 #pragma config WDTWIN = WIN25    //Watchdog Timer Window Select bits->WDT Window is 25% of WDT period
