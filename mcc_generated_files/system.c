@@ -46,11 +46,12 @@
 #include "clock.h"
 #include "system.h"
 #include "system_types.h"
-#include "interrupt_manager.h"
-#include "traps.h"
 #include "slave_typedef.h"
 #include "slave1.h"
+#include "tmr1.h"
 #include "delay.h"
+#include "interrupt_manager.h"
+#include "traps.h"
 
 void SYSTEM_Initialize(void)
 {
@@ -58,6 +59,7 @@ void SYSTEM_Initialize(void)
     CLOCK_Initialize();
     INTERRUPT_Initialize();
     SLAVE1_Initialize();
+    TMR1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);
 }

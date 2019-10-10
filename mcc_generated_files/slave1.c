@@ -45,9 +45,9 @@
 
 // FMBXM
 #pragma config MBXM0 = S2M    //Mailbox 0 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
-#pragma config MBXM1 = S2M    //Mailbox 1 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
-#pragma config MBXM2 = S2M    //Mailbox 2 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
-#pragma config MBXM3 = S2M    //Mailbox 3 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
+#pragma config MBXM1 = M2S    //Mailbox 1 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
+#pragma config MBXM2 = M2S    //Mailbox 2 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
+#pragma config MBXM3 = M2S    //Mailbox 3 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
 #pragma config MBXM4 = S2M    //Mailbox 4 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
 #pragma config MBXM5 = S2M    //Mailbox 5 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
 #pragma config MBXM6 = S2M    //Mailbox 6 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
@@ -63,7 +63,7 @@
 
 // FMBXHS1
 #pragma config MBXHSA = MBX0    //Mailbox handshake protocol block A register assignment->MSIxMBXD0 assigned to mailbox handshake protocol block A
-#pragma config MBXHSB = MBX15    //Mailbox handshake protocol block B register assignment->MSIxMBXD15 assigned to mailbox handshake protocol block B
+#pragma config MBXHSB = MBX3    //Mailbox handshake protocol block B register assignment->MSIxMBXD3 assigned to mailbox handshake protocol block B
 #pragma config MBXHSC = MBX15    //Mailbox handshake protocol block C register assignment->MSIxMBXD15 assigned to mailbox handshake protocol block C
 #pragma config MBXHSD = MBX15    //Mailbox handshake protocol block D register assignment->MSIxMBXD15 assigned to mailbox handshake protocol block D
 
@@ -75,7 +75,7 @@
 
 // FMBXHSEN
 #pragma config HSAEN = ON    //Mailbox A data flow control protocol block enable->Mailbox data flow control handshake protocol block enabled
-#pragma config HSBEN = OFF    //Mailbox B data flow control protocol block enable->Mailbox data flow control handshake protocol block disabled.
+#pragma config HSBEN = ON    //Mailbox B data flow control protocol block enable->Mailbox data flow control handshake protocol block enabled
 #pragma config HSCEN = OFF    //Mailbox C data flow control protocol block enable->Mailbox data flow control handshake protocol block disabled.
 #pragma config HSDEN = OFF    //Mailbox D data flow control protocol block enable->Mailbox data flow control handshake protocol block disabled.
 #pragma config HSEEN = OFF    //Mailbox E data flow control protocol block enable->Mailbox data flow control handshake protocol block disabled.
@@ -132,6 +132,8 @@
 
 inline static bool SLAVE1_ProtocolAIsFull();
 inline static bool SLAVE1_ProtocolAIsEmpty();
+inline static bool SLAVE1_ProtocolBIsFull();
+inline static bool SLAVE1_ProtocolBIsEmpty();
 
 /**
  Section: Driver Interface Function Definitions
@@ -147,6 +149,10 @@ void SLAVE1_Initialize()
     IFS8bits.MSIAIF = 0;	
     //ProtocolA Interrupt Enable
     IEC8bits.MSIAIE = 1;
+    //ProtocolB Interrupt Flag Clear
+    IFS8bits.MSIBIF = 0;	
+    //ProtocolB Interrupt Enable
+    IEC8bits.MSIBIE = 1;
 
 }
 
@@ -320,6 +326,45 @@ inline static bool SLAVE1_ProtocolAIsFull()
 inline static bool SLAVE1_ProtocolAIsEmpty()
 {
     return (!MSI1MBXSbits.DTRDYA);
+}
+bool SLAVE1_ProtocolBWrite(ProtocolB_DATA *pData)
+{
+    bool status = false;
+    if(SLAVE1_ProtocolBIsEmpty())
+    {
+        MSI1MBX1D = pData->ProtocolB[0];
+        MSI1MBX2D = pData->ProtocolB[1];
+        MSI1MBX3D = pData->ProtocolB[2];
+
+        status = true;
+    }	
+    else
+    {
+        status = false;
+    }
+    return status;	
+}
+
+
+void __attribute__ ((interrupt, no_auto_psv)) _MSIBInterrupt(void)
+{
+    SLAVE1_ProtocolBCallBack();
+    IFS8bits.MSIBIF=0;
+}
+
+void __attribute__ ((weak)) SLAVE1_ProtocolBCallBack(void)
+{
+    // Add your custom callback code here
+}
+
+inline static bool SLAVE1_ProtocolBIsFull()
+{
+    return (MSI1MBXSbits.DTRDYB);
+}
+
+inline static bool SLAVE1_ProtocolBIsEmpty()
+{
+    return (!MSI1MBXSbits.DTRDYB);
 }
 
 

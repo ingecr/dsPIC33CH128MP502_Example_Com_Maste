@@ -79,6 +79,21 @@ typedef struct ProtocolA_DATA_STRUCT
     uint16_t    ProtocolA[1];
 
 } ProtocolA_DATA; 
+/** 
+   ProtocolB data structure
+
+  @Summary
+    Defines the data structure for ProtocolB.
+
+  @Description
+    This structure defines the data for ProtocolB.
+*/
+
+typedef struct ProtocolB_DATA_STRUCT
+{
+    uint16_t    ProtocolB[3];
+
+} ProtocolB_DATA; 
         
 /**
  Section: Interface Routines
@@ -533,6 +548,52 @@ bool SLAVE1_ProtocolARead(ProtocolA_DATA *pData);
 */
         
 void SLAVE1_ProtocolACallBack(void);
+/**
+  @Summary
+    Writes data to mailbox.
+
+  @Description
+    This routine writes data to mailbox.
+
+  @Preconditions
+    None.
+
+  @Returns
+    Returns a boolean.
+    true   -    successful write
+    false  -    unsuccessful write
+
+  @Param
+    *pData      - Pointer to an structure which has data for transmission.
+
+  @Example 
+    Refer to SLAVE1_Initialize() for an example    
+*/
+        
+bool SLAVE1_ProtocolBWrite(ProtocolB_DATA *pData);
+
+
+/**
+  @Summary
+    Callback for ProtocolB.
+
+  @Description
+    This routine is a callback for ProtocolB interrupt.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None
+
+  @Param
+    None
+
+  @Example 
+    None  
+*/
+        
+void SLAVE1_ProtocolBCallBack(void);
 
 
 

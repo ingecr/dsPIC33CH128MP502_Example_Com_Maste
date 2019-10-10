@@ -55,4 +55,10 @@ void INTERRUPT_Initialize (void)
     //    MSIA: MSI Protocol A
     //    Priority: 1
         IPC32bits.MSIAIP = 1;
+    //    MSIB: MSI Protocol B
+    //    Priority: 1
+        IPC32bits.MSIBIP = 1;
+    //    TI: Timer 1
+    //    Priority: 1
+        IPC0bits.T1IP = 1;
 }
