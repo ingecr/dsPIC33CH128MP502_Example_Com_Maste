@@ -46,19 +46,23 @@
 #include "clock.h"
 #include "system.h"
 #include "system_types.h"
-#include "slave_typedef.h"
-#include "slave1.h"
-#include "tmr1.h"
-#include "delay.h"
+#include "sccp1_tmr.h"
 #include "interrupt_manager.h"
 #include "traps.h"
+#include "delay.h"
+#include "tmr1.h"
+#include "spi1.h"
+#include "slave_typedef.h"
+#include "slave1.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
     CLOCK_Initialize();
     INTERRUPT_Initialize();
+    SCCP1_TMR_Initialize();
     SLAVE1_Initialize();
+    SPI1_Initialize();
     TMR1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);

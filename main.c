@@ -48,14 +48,17 @@
 
 #include "mcc_generated_files/mcc.h"
 #include "lcd.h"
+#include "MAX31855_API.h"
  
-#define DATA_UNDER_TEST 0xAAAA
  
 int main(void)
 {
     // initialize the device
     SYSTEM_Initialize();
     LCD_Initialize();
+    
+    uint16_t temp_thermopar =   0;
+    uint16_t temp_internal  =   0;
     
  
     //Program and enable slave
@@ -89,18 +92,26 @@ int main(void)
             SLAVE1_ProtocolARead((ProtocolA_DATA*)&dataReceive);
             
             //printf("\fValue:%d(c)\r\n",dataReceive.ProtocolA[0]);
-            //DELAY_milliseconds(40);
+            
             SLAVE1_InterruptRequestAcknowledgeComplete();  
+            
+            
+            get_MAX31855_temperatures(&temp_thermopar, &temp_internal);
+            
             if ((dataReceive.ProtocolA[0] & 0xFF) > 5)
             {
-                LED6_SetHigh();
+                //LED6_SetHigh();
             }
             else
             {
-                LED6_SetLow();
+                //LED6_SetLow();
             }
-            } 
-            LED5_Toggle();   
+            }
+            
+            
+            //printf("\fValue:%d(c)\r\n %d(c)",temp_thermopar, temp_internal);
+            //DELAY_milliseconds(40);
+            //LED5_Toggle();   
         
         //Mailbox read
         

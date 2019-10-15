@@ -58,6 +58,12 @@ void INTERRUPT_Initialize (void)
     //    MSIB: MSI Protocol B
     //    Priority: 1
         IPC32bits.MSIBIP = 1;
+    //    CCPI: CCP1 Capture/Compare Event
+    //    Priority: 1
+        IPC1bits.CCP1IP = 1;
+    //    CCTI: CCP1 Timer Event
+    //    Priority: 1
+        IPC1bits.CCT1IP = 1;
     //    TI: Timer 1
     //    Priority: 1
         IPC0bits.T1IP = 1;

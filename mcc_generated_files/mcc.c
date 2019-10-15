@@ -58,13 +58,13 @@
 #pragma config BSLIM = 8191    //Boot Segment Flash Page Address Limit bits->8191
 
 // FOSCSEL
-#pragma config FNOSC = FRCPLL    //Oscillator Source Selection->Fast RC Oscillator with PLL module (FRCPLL) 
+#pragma config FNOSC = FRC    //Oscillator Source Selection->FRC
 #pragma config IESO = ON    //Two-speed Oscillator Start-up Enable bit->Start up device with FRC, then switch to user-selected oscillator source
 
 // FOSC
 #pragma config POSCMD = NONE    //Primary Oscillator Mode Select bits->Primary Oscillator disabled
 #pragma config OSCIOFNC = OFF    //OSC2 Pin Function bit->OSC2 is clock output
-#pragma config FCKSM = CSDCMD    //Clock Switching Mode bits->Both Clock switching and Fail-safe Clock Monitor are disabled
+#pragma config FCKSM = CSECMD    //Clock Switching Mode bits->Clock switching is enabled,Fail-safe Clock Monitor is disabled
 #pragma config PLLKEN = PLLKEN_ON    //PLLKEN->reserved as PLLKEN_ON
 #pragma config XTCFG = G3    //XT Config->24-32 MHz crystals
 #pragma config XTBST = ENABLE    //XT Boost->Boost the kick-start
@@ -174,7 +174,7 @@
 #pragma config CPRE1 = SLV1    //Pin RE1 Ownership Bits->Slave 1 core owns pin.
 #pragma config CPRE2 = MSTR    //Pin RE2 Ownership Bits->Master core owns pin.
 #pragma config CPRE3 = MSTR    //Pin RE3 Ownership Bits->Master core owns pin.
-#pragma config CPRE4 = SLV1    //Pin RE4 Ownership Bits->Slave 1 core owns pin.
+#pragma config CPRE4 = MSTR    //Pin RE4 Ownership Bits->Master core owns pin.
 #pragma config CPRE5 = MSTR    //Pin RE5 Ownership Bits->Master core owns pin.
 #pragma config CPRE6 = MSTR    //Pin RE6 Ownership Bits->Master core owns pin.
 #pragma config CPRE7 = MSTR    //Pin RE7 Ownership Bits->Master core owns pin.

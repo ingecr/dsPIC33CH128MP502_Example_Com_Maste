@@ -314,7 +314,7 @@ void __attribute__ ((interrupt, no_auto_psv)) _MSIAInterrupt(void)
 void __attribute__ ((weak)) SLAVE1_ProtocolACallBack(void)
 {
     //My code
-    LED3_Toggle(); 
+    //LED3_Toggle(); 
    
 }
 
