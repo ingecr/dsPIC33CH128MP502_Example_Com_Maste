@@ -7,6 +7,14 @@
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
+        <logicalFolder name="f1" displayName="drivers" projectFiles="true">
+          <itemPath>i2c_master.h</itemPath>
+          <itemPath>i2c_simple_master.h</itemPath>
+          <itemPath>i2c_types.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="f2" displayName="Thermo5Drivers" projectFiles="true">
+          <itemPath>Thermo5.h</itemPath>
+        </logicalFolder>
         <itemPath>mcc_generated_files/interrupt_manager.h</itemPath>
         <itemPath>mcc_generated_files/watchdog.h</itemPath>
         <itemPath>mcc_generated_files/pin_manager.h</itemPath>
@@ -23,6 +31,8 @@
         <itemPath>mcc_generated_files/tmr1.h</itemPath>
         <itemPath>mcc_generated_files/sccp1_tmr.h</itemPath>
         <itemPath>mcc_generated_files/spi1.h</itemPath>
+        <itemPath>mcc_generated_files/i2c1_driver.h</itemPath>
+        <itemPath>mcc_generated_files/ext_int.h</itemPath>
       </logicalFolder>
       <itemPath>lcd.h</itemPath>
       <itemPath>MAX31855_API.h</itemPath>
@@ -37,6 +47,14 @@
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
                      projectFiles="true">
+        <logicalFolder name="f1" displayName="drivers" projectFiles="true">
+          <itemPath>i2c_master.c</itemPath>
+          <itemPath>i2c_simple_master.c</itemPath>
+          <itemPath>i2c_types.c</itemPath>
+        </logicalFolder>
+        <logicalFolder name="f2" displayName="Thermo5Drivers" projectFiles="true">
+          <itemPath>Thermo5.c</itemPath>
+        </logicalFolder>
         <itemPath>mcc_generated_files/slave1.c</itemPath>
         <itemPath>mcc_generated_files/reset.c</itemPath>
         <itemPath>mcc_generated_files/system.c</itemPath>
@@ -49,6 +67,8 @@
         <itemPath>mcc_generated_files/tmr1.c</itemPath>
         <itemPath>mcc_generated_files/sccp1_tmr.c</itemPath>
         <itemPath>mcc_generated_files/spi1.c</itemPath>
+        <itemPath>mcc_generated_files/i2c1_driver.c</itemPath>
+        <itemPath>mcc_generated_files/ext_int.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>lcd.c</itemPath>
@@ -141,7 +161,8 @@
         <property key="enable-short-double" value="false"/>
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
-        <property key="extra-include-directories" value="mcc_generated_files"/>
+        <property key="extra-include-directories"
+                  value="mcc_generated_files;mcc_generated_files;mcc_generated_files"/>
         <property key="isolate-each-function" value="false"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>

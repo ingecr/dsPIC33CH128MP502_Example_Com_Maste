@@ -49,22 +49,7 @@
 
 #include <stdio.h>
 #include "tmr1.h"
-#include "slave1.h"
-
-#define EMULATE_EEPROM_SIZE                     6
-static uint8_t EMULATE_EEPROM_Memory[EMULATE_EEPROM_SIZE] =
-            {
-                0x01, 0x02, 0x03, 0x04, 0x05 , 0x06
-            };
-
-uint8_t read_Data_Memory(uint8_t adress)
-    {
-        return EMULATE_EEPROM_Memory[adress];
-    }
-    void write_Data_Memory(uint8_t adress , uint8_t data)
-    {
-        EMULATE_EEPROM_Memory[adress] = data;
-    }
+#include "pin_manager.h"
 /**
  Section: File specific functions
 */
@@ -107,10 +92,10 @@ void TMR1_Initialize (void)
 {
     //TMR 0; 
     TMR1 = 0x00;
-    //Period = 0.1799992889 s; Frequency = 90000000 Hz; PR 63280; 
-    PR1 = 0xF730;
-    //TCKPS 1:256; PRWIP Write complete; TMWIP Write complete; TON enabled; TSIDL disabled; TCS FOSC/2; TECS T1CK; TSYNC disabled; TMWDIS disabled; TGATE disabled; 
-    T1CON = 0x8030;
+    //Period = 0.0000020333 s; Frequency = 90000000 Hz; PR 182; 
+    PR1 = 0xB6;
+    //TCKPS 1:1; PRWIP Write complete; TMWIP Write complete; TON enabled; TSIDL disabled; TCS FOSC/2; TECS T1CK; TSYNC disabled; TMWDIS disabled; TGATE disabled; 
+    T1CON = 0x8000;
 
     if(TMR1_InterruptHandler == NULL)
     {
@@ -174,19 +159,8 @@ uint16_t TMR1_Counter16BitGet( void )
 
 void __attribute__ ((weak)) TMR1_CallBack(void)
 {
-    ProtocolB_DATA dataSend;
-    dataSend.ProtocolB[0] = read_Data_Memory(1);     
-    dataSend.ProtocolB[1] = (uint16_t)read_Data_Memory(2) + ((uint16_t)read_Data_Memory(3) << 8); 
-    dataSend.ProtocolB[2] = (uint16_t)read_Data_Memory(4) + ((uint16_t)read_Data_Memory(5) << 8); 
- 
-    //Mailbox write 
-    SLAVE1_ProtocolBWrite((ProtocolB_DATA*)&dataSend);
- 
-    //Issue interrupt to master
-    SLAVE1_InterruptRequestGenerate();
-    while(!SLAVE1_IsInterruptRequestAcknowledged());
-    SLAVE1_InterruptRequestComplete();
-    while(SLAVE1_IsInterruptRequestAcknowledged());
+    // Add your custom callback code here
+    LED10_Toggle();
 }
 
 void  TMR1_SetInterruptHandler(void (* InterruptHandler)(void))

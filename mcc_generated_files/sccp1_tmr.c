@@ -48,6 +48,22 @@
 
 #include "sccp1_tmr.h"
 #include "pin_manager.h"
+#include "slave1.h"
+
+#define EMULATE_EEPROM_SIZE                     6
+static uint8_t EMULATE_EEPROM_Memory[EMULATE_EEPROM_SIZE] =
+            {
+                0x01, 0x02, 0x03, 0x04, 0x05 , 0x06
+            };
+
+uint8_t read_Data_Memory(uint8_t adress)
+    {
+        return EMULATE_EEPROM_Memory[adress];
+    }
+    void write_Data_Memory(uint8_t adress , uint8_t data)
+    {
+        EMULATE_EEPROM_Memory[adress] = data;
+    }
 
 /**
   Section: Data Type Definitions
@@ -76,8 +92,8 @@ typedef struct _SCCP1_TMR_OBJ_STRUCT
 static SCCP1_TMR_OBJ sccp1_timer_obj;
 void SCCP1_TMR_Initialize(void)
 {
-    // CCPON enabled; MOD 16-Bit/32-Bit Timer; CCSEL disabled; CCPSIDL disabled; TMR32 16 Bit; CCPSLP disabled; TMRPS 1:1; CLKSEL FOSC/2; TMRSYNC disabled; 
-    CCP1CON1L = (0x8000 & 0x7FFF); //Disabling CCPON bit
+    // CCPON enabled; MOD 16-Bit/32-Bit Timer; CCSEL disabled; CCPSIDL disabled; TMR32 32 Bit; CCPSLP disabled; TMRPS 1:64; CLKSEL FOSC/2; TMRSYNC disabled; 
+    CCP1CON1L = (0x80E0 & 0x7FFF); //Disabling CCPON bit
     //RTRGEN disabled; ALTSYNC disabled; ONESHOT disabled; TRIGEN disabled; IOPS Each Time Base Period Match; SYNC None; OPSRC Timer Interrupt Event; 
     CCP1CON1H = 0x00;
     //ASDGM disabled; SSDG disabled; ASDG 0; PWMRSEN disabled; 
@@ -92,10 +108,10 @@ void SCCP1_TMR_Initialize(void)
     CCP1TMRL = 0x00;
     //TMR 0; 
     CCP1TMRH = 0x00;
-    //PR 182; 
-    CCP1PRL = 0xB6;
-    //PR 0; 
-    CCP1PRH = 0x00;
+    //PR 20480; 
+    CCP1PRL = 0x5000;
+    //PR 4; 
+    CCP1PRH = 0x04;
     //CMP 0; 
     CCP1RAL = 0x00;
     //CMP 0; 
@@ -136,9 +152,23 @@ void SCCP1_TMR_Stop( void )
     CCP1CON1Lbits.CCPON = false;
 }
 
-void __attribute__ ((weak)) SCCP1_TMR_PrimaryTimerCallBack(void)
+void __attribute__ ((weak)) SCCP1_TMR_Timer32CallBack(void)
 {
-    LED10_Toggle();
+    // Add your custom callback code here
+    //LED10_Toggle();
+    ProtocolB_DATA dataSend;
+    dataSend.ProtocolB[0] = read_Data_Memory(1);     
+    dataSend.ProtocolB[1] = (uint16_t)read_Data_Memory(2) + ((uint16_t)read_Data_Memory(3) << 8); 
+    dataSend.ProtocolB[2] = (uint16_t)read_Data_Memory(4) + ((uint16_t)read_Data_Memory(5) << 8); 
+ 
+    //Mailbox write 
+    SLAVE1_ProtocolBWrite((ProtocolB_DATA*)&dataSend);
+ 
+    //Issue interrupt to master
+    SLAVE1_InterruptRequestGenerate();
+    while(!SLAVE1_IsInterruptRequestAcknowledged());
+    SLAVE1_InterruptRequestComplete();
+    while(SLAVE1_IsInterruptRequestAcknowledged());
 }
 
 void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCT1Interrupt ( void )
@@ -146,110 +176,66 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCT1Interrupt ( void )
     /* Check if the Timer Interrupt/Status is set */
     if(IFS0bits.CCT1IF)
     {         
-        sccp1_timer_obj.primaryTimer16Elapsed = true;
-		// SCCP1 Primary Timer callback function 
-		SCCP1_TMR_PrimaryTimerCallBack();
+        sccp1_timer_obj.Timer32Elapsed = true;
+		// SCCP1 Timer 32 bit callback function 
+		SCCP1_TMR_Timer32CallBack();
         IFS0bits.CCT1IF = 0;
     }
 }
 
 
-void __attribute__ ((weak)) SCCP1_TMR_SecondaryTimerCallBack(void)
-{
-    // Add your custom callback code here
-}
 
-void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCP1Interrupt ( void )
+void SCCP1_TMR_Period32BitSet( uint32_t value )
 {
-    /* Check if the Timer Interrupt/Status is set */
-    if(IFS0bits.CCP1IF)
-    {
-		// SCCP1 Secondary Timer callback function 
-		SCCP1_TMR_SecondaryTimerCallBack();
-        sccp1_timer_obj.secondaryTimer16Elapsed = true;
-        IFS0bits.CCP1IF = 0;
-    }
-}
-
-void SCCP1_TMR_Period16BitPrimarySet( uint16_t value )
-{
-    /* Update the counter values */
-    CCP1PRL = value;
+    /* Update the period values */
+    CCP1PRL = (value & 0x0000FFFF);
+    CCP1PRH = ((value & 0xFFFF0000)>>16);
 
     /* Reset the status information */
-    sccp1_timer_obj.primaryTimer16Elapsed = false;
+    sccp1_timer_obj.Timer32Elapsed = false;
 }
 
-void SCCP1_TMR_Period16BitSecondarySet( uint16_t value )
+uint32_t SCCP1_TMR_Period32BitGet( void )
+{
+    uint32_t periodVal = 0xFFFFFFFF;
+    
+    /* get the timer period value and return it */
+    periodVal = (((uint32_t)CCP1PRH <<16) | CCP1PRL);
+
+    return(periodVal);
+}
+
+void SCCP1_TMR_Counter32BitSet ( uint32_t value )
 {
     /* Update the counter values */
-    CCP1PRH = value;
-
+    CCP1TMRL = (value & 0x0000FFFF);
+    CCP1TMRH = ((value & 0xFFFF0000)>>16);
     /* Reset the status information */
-    sccp1_timer_obj.secondaryTimer16Elapsed = false;
+    sccp1_timer_obj.Timer32Elapsed = false;
 }
 
-uint16_t SCCP1_TMR_Period16BitPrimaryGet( void )
+uint32_t SCCP1_TMR_Counter32BitGet( void )
 {
-    return( CCP1PRL );
-}
-uint16_t SCCP1_TMR_Period16BitSecondaryGet( void )
-{
-    return( CCP1PRH );
+    uint32_t counterVal = 0xFFFFFFFF;
+
+    /* get the timer period value and return it */
+    counterVal = (((uint32_t)CCP1TMRH <<16) | (CCP1TMRL));
+
+    return(counterVal);
 }
 
-void SCCP1_TMR_Counter16BitPrimarySet ( uint16_t value )
-{
-    /* Update the counter values */
-    CCP1PRL = value;
-    /* Reset the status information */
-    sccp1_timer_obj.primaryTimer16Elapsed = false;
-}
-
-void SCCP1_TMR_Counter16BitSecondarySet ( uint16_t value )
-{
-    /* Update the counter values */
-    CCP1PRH = value;
-    /* Reset the status information */
-    sccp1_timer_obj.secondaryTimer16Elapsed = false;
-}
-
-uint16_t SCCP1_TMR_Counter16BitPrimaryGet( void )
-{
-    return( CCP1TMRL );
-}
-
-uint16_t SCCP1_TMR_Counter16BitSecondaryGet( void )
-{
-    return( CCP1TMRH );
-}
-
-bool SCCP1_TMR_PrimaryTimer16ElapsedThenClear(void)
+bool SCCP1_TMR_Timer32ElapsedThenClear(void)
 {
     bool status;
     
-    status = sccp1_timer_obj.primaryTimer16Elapsed ;
+    status = sccp1_timer_obj.Timer32Elapsed ;
     
     if(status == true)
     {
-        sccp1_timer_obj.primaryTimer16Elapsed = false;
+        sccp1_timer_obj.Timer32Elapsed = false;
     }
     return status;
 }
-
-bool SCCP1_TMR_SecondaryTimer16ElapsedThenClear(void)
-{
-    bool status;
-    
-    status = sccp1_timer_obj.secondaryTimer16Elapsed ;
-    
-    if(status == true)
-    {
-        sccp1_timer_obj.secondaryTimer16Elapsed = false;
-    }
-    return status;
-}
-
 /**
  End of File
 */

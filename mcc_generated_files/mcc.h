@@ -52,14 +52,16 @@
 #include "pin_manager.h"
 #include <stdint.h>
 #include <stdbool.h>
-#include "reset.h"
 #include "watchdog.h"
+#include "reset.h"
 #include "sccp1_tmr.h"
+#include "i2c1_driver.h"
+#include "spi1.h"
+#include "ext_int.h"
+#include "tmr1.h"
+#include "delay.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "delay.h"
-#include "tmr1.h"
-#include "spi1.h"
 #include "slave_typedef.h"
 #include "slave1.h"
 

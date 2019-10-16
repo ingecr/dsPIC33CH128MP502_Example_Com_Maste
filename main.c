@@ -49,6 +49,7 @@
 #include "mcc_generated_files/mcc.h"
 #include "lcd.h"
 #include "MAX31855_API.h"
+#include "Thermo5.h"
  
  
 int main(void)
@@ -59,8 +60,16 @@ int main(void)
     
     uint16_t temp_thermopar =   0;
     uint16_t temp_internal  =   0;
+    double internal_temp  =   0;
+    double temp_1         =   0;
+    double temp_2         =   0;
+    double temp_3         =   0;
     
- 
+    uint8_t internal_temp_i  =   0;
+    int temp_1_i         =   0;
+    int temp_2_i         =   0;
+    int temp_3_i         =   0;
+    
     //Program and enable slave
     SLAVE1_Program();
     SLAVE1_Start();
@@ -88,34 +97,27 @@ int main(void)
             SLAVE1_InterruptRequestAcknowledge();
             while(SLAVE1_IsInterruptRequested());
             
-            
             SLAVE1_ProtocolARead((ProtocolA_DATA*)&dataReceive);
             
-            //printf("\fValue:%d(c)\r\n",dataReceive.ProtocolA[0]);
+            write_Data_Memory(0,dataReceive.ProtocolA[0]);
             
             SLAVE1_InterruptRequestAcknowledgeComplete();  
-            
-            
+                        
             get_MAX31855_temperatures(&temp_thermopar, &temp_internal);
             
-            if ((dataReceive.ProtocolA[0] & 0xFF) > 5)
-            {
-                //LED6_SetHigh();
-            }
-            else
-            {
-                //LED6_SetLow();
-            }
+            internal_temp =   Thermo5_ReadTemperature(INTERNAL_DIODE);
+            temp_1        =   Thermo5_ReadTemperature(DIODE_1); 
+            temp_2        =   Thermo5_ReadTemperature(DIODE_2);
+            temp_3        =   Thermo5_ReadTemperature(DIODE_3);
+            
+            write_Data_Memory(1,temp_thermopar);
+            write_Data_Memory(2,(uint8_t)internal_temp);
+            write_Data_Memory(3,(uint8_t)temp_1);
+            write_Data_Memory(4,(uint8_t)temp_2);
+            write_Data_Memory(5,(uint8_t)temp_3);
             }
             
-            
-            //printf("\fValue:%d(c)\r\n %d(c)",temp_thermopar, temp_internal);
-            //DELAY_milliseconds(40);
-            //LED5_Toggle();   
-        
-        //Mailbox read
-        
-        //DELAY_milliseconds(40);
+
         
     }
 }

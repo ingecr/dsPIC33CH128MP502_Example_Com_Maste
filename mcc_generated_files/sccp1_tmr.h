@@ -147,10 +147,10 @@ void SCCP1_TMR_Stop( void );
 
 /**
   @Summary
-    Callback for SCCP1 Primary Timer.
+    Callback for SCCP1 Timer 32 bit.
 
   @Description
-    This routine is callback for SCCP1 Primary Timer
+    This routine is callback for SCCP1 Timer 32 bit
 
   @Param
     None.
@@ -161,54 +161,15 @@ void SCCP1_TMR_Stop( void );
   @Example 
 	Refer to SCCP1_Initialize(); for an example
 */
-void SCCP1_TMR_PrimaryTimerCallBack(void);
+void SCCP1_TMR_Timer32CallBack(void);
 
 
 /**
   @Summary
-    Callback for SCCP1 Secondary Timer.
+    Updates 32-bit mccp value
 
   @Description
-    This routine is callback for SCCP1 Secondary Timer
-
-  @Param
-    None.
-
-  @Returns
-    None
- 
-  @Example 
-	Refer to SCCP1_Initialize(); for an example
-*/
-void SCCP1_TMR_SecondaryTimerCallBack(void);
-
-/**
-*/
-
-/**
-  @Summary
-    Updates 16-bit mccp value
-
-  @Description
-    This routine updates 16-bit mccp value
-
-  @Param
-    None.
-
-  @Returns
-    None
-
-  @Example
-    Refer to the example of SCCP1_Initializer();
-*/
-
-void SCCP1_TMR_Period16BitPrimarySet( uint16_t value );
-/**
-  @Summary
-    Updates 16-bit mccp value
-
-  @Description
-    This routine updates 16-bit mccp value
+    This routine updates 32-bit mccp value
 
   @Param
     None.
@@ -219,65 +180,49 @@ void SCCP1_TMR_Period16BitPrimarySet( uint16_t value );
   @Example
     Refer to the example of SCCP1_TMR_Initializer();
 */
-void SCCP1_TMR_Period16BitSecondarySet( uint16_t value );
+
+void SCCP1_TMR_Period32BitSet( uint32_t value );
+
 /**
   @Summary
-    Provides the mccp 16-bit period value
+    Provides the mccp 32-bit period value
 
   @Description
-    This routine provides the mccp 16-bit period value
+    This routine provides the mccp 32-bit period value
 
   @Param
     None.
 
   @Returns
-    Timer 16-bit period value
+    Timer 32-bit period value
 
   @Example
     Refer to the example of SCCP1_TMR_Initializer();
 */
 
-uint16_t SCCP1_TMR_Period16BitPrimaryGet( void );
+uint32_t SCCP1_TMR_Period32BitGet( void );
+
 /**
   @Summary
-    Provides the mccp 16-bit period value
+    Updates the mccp's 32-bit value
 
   @Description
-    This routine provides the mccp 16-bit period value
+    This routine updates the mccp's 32-bit value
 
   @Param
     None.
 
   @Returns
-    Timer 16-bit period value
-
-  @Example
-    Refer to the example of SCCP1_TMR_Initializer();
-*/
-uint16_t SCCP1_TMR_Period16BitSecondaryGet( void );
-/**
-  @Summary
-    Updates the mccp's 16-bit value
-
-  @Description
-    This routine updates the mccp's 16-bit value
-
-  @Param
-    None.
-
-  @Returns
-    None  
-
-  @Example
+    None  @Example
     <code>
-    uint16_t value=0xF0F0;
+    uint32_t value=0xF0F0F0F0;
 
-    SCCP1_TMR_Counter16BitSet(value));
+    SCCP1_TMR_Counter32BitSet(value));
 
     while(1)
     {
         SCCP1_TMR_Tasks();
-        if( (value == SCCP1_TMR_Counter16BitGet()))
+        if( (value == SCCP1_TMR_Counter32BitGet()))
         {
             SCCP1_TMR_Stop();
         }
@@ -285,73 +230,27 @@ uint16_t SCCP1_TMR_Period16BitSecondaryGet( void );
     </code>
 */
 
-void SCCP1_TMR_Counter16BitPrimarySet ( uint16_t value );
+void SCCP1_TMR_Counter32BitSet( uint32_t value );
+
 /**
   @Summary
-    Updates the mccp's 16-bit value
+    Provides 32-bit current counter value
 
   @Description
-    This routine updates the mccp's 16-bit value
+    This routine provides 32-bit current counter value
 
   @Param
     None.
 
   @Returns
-    None  
+    32-bit current counter value
 
   @Example
-    <code>
-    uint16_t value=0xF0F0;
-
-    SCCP1_TMR_Counter16BitSet(value));
-
-    while(1)
-    {
-        SCCP1_TMR_Tasks();
-        if( (value == SCCP1_TMR_Counter16BitGet()))
-        {
-            SCCP1_TMR_Stop();
-        }
-    }
-    </code>
+    Refer to the example of SCCP1_TMR_Counter32BitSet();
 */
 
-void SCCP1_TMR_Counter16BitSecondarySet( uint16_t value );
-/**
-  @Summary
-    Provides 16-bit current counter value
+uint32_t SCCP1_TMR_Counter32BitGet( void );
 
-  @Description
-    This routine provides 16-bit current counter value
-
-  @Param
-    None.
-
-  @Returns
-    16-bit current counter value
-
-  @Example
-    Refer to the example of SCCP1_TMR_Counter16BitSet();
-*/
-
-uint16_t SCCP1_TMR_Counter16BitPrimaryGet( void );
-/**
-  @Summary
-    Provides 16-bit current counter value
-
-  @Description
-    This routine provides 16-bit current counter value
-
-  @Param
-    None.
-
-  @Returns
-    16-bit current counter value
-
-  @Example
-    Refer to the example of SCCP1_TMR_Counter16BitSet();
-*/
-uint16_t SCCP1_TMR_Counter16BitSecondaryGet( void );
 /**
   @Summary
     Returns the elapsed status of the mccp
@@ -369,25 +268,7 @@ uint16_t SCCP1_TMR_Counter16BitSecondaryGet( void );
     Refer to the example of SCCP1_TMR_Initializer();
 */
 
-bool SCCP1_TMR_PrimaryTimer16ElapsedThenClear(void);
-/**
-  @Summary
-    Returns the elapsed status of the mccp
-
-  @Description
-    This routine returns the elapsed status of the mccp
-
-  @Param
-    None.
-
-  @Returns
-    bool - Elapsed status of the mccp.
-
-  @Example
-    Refer to the example of SCCP1_TMR_Initializer();
-*/
-bool SCCP1_TMR_SecondaryTimer16ElapsedThenClear(void);
-
+bool SCCP1_TMR_Timer32ElapsedThenClear(void);
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 

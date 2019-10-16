@@ -1,5 +1,5 @@
-build/default/production/main.o:  \
-main.c  \
+build/default/production/mcc_generated_files/i2c1_driver.o:  \
+ mcc_generated_files/i2c1_driver.c  \
 mcc_generated_files/mcc.h  \
  mcc_generated_files/reset.h  \
 mcc_generated_files/reset_types.h  \
@@ -17,9 +17,4 @@ mcc_generated_files/tmr1.h  \
 mcc_generated_files/interrupt_manager.h  \
  mcc_generated_files/traps.h  \
 mcc_generated_files/slave_typedef.h  \
- mcc_generated_files/slave1.h  \
-lcd.h  \
-MAX31855_API.h  \
- mcc_generated_files/spi1.h  \
-mcc_generated_files/pin_manager.h  \
-Thermo5.h 
+ mcc_generated_files/slave1.h 

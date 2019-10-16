@@ -64,6 +64,15 @@ void INTERRUPT_Initialize (void)
     //    CCTI: CCP1 Timer Event
     //    Priority: 1
         IPC1bits.CCT1IP = 1;
+    //    INT1I: External Interrupt 1
+    //    Priority: 1
+        IPC3bits.INT1IP = 1;
+    //    MICI: I2C1 Master Event
+    //    Priority: 1
+        IPC4bits.MI2C1IP = 1;
+    //    SICI: I2C1 Slave Event
+    //    Priority: 1
+        IPC4bits.SI2C1IP = 1;
     //    TI: Timer 1
     //    Priority: 1
         IPC0bits.T1IP = 1;
