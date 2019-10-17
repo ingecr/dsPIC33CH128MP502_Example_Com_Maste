@@ -51,6 +51,7 @@
 #include "spi1.h"
 #include "ext_int.h"
 #include "sccp1_tmr.h"
+#include "sccp2_tmr.h"
 #include "tmr1.h"
 #include "interrupt_manager.h"
 #include "traps.h"
@@ -66,6 +67,7 @@ void SYSTEM_Initialize(void)
     CLOCK_Initialize();
     INTERRUPT_Initialize();
     SCCP1_TMR_Initialize();
+    SCCP2_TMR_Initialize();
     Thermo5_Initialize();
     SLAVE1_Initialize();
     SPI1_Initialize();

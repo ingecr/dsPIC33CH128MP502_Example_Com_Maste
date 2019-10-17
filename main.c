@@ -53,6 +53,8 @@
 #include "PID.h"
 #include "phase_control.h"
 #include "mcc_generated_files/sccp1_tmr.h"
+#include "mcc_generated_files/sccp2_tmr.h"
+
 
  
 int main(void)
@@ -69,7 +71,7 @@ int main(void)
     double temp_3         =   0;
     
     int8_t reference    = 50;
-    uint16_t reference_count = 3200;
+    
     
     //Program and enable slave
     SLAVE1_Program();
@@ -101,6 +103,7 @@ int main(void)
             SLAVE1_ProtocolARead((ProtocolA_DATA*)&dataReceive);
             
             write_Data_Memory(0,dataReceive.ProtocolA[0]);
+            reference = dataReceive.ProtocolA[0];
             
             SLAVE1_InterruptRequestAcknowledgeComplete();  
                         
@@ -117,9 +120,11 @@ int main(void)
             write_Data_Memory(4,(uint8_t)temp_2);
             write_Data_Memory(5,(uint8_t)temp_3);
             
-            uint16_t dummy_t = PID((int8_t*)&temp_thermopar,&reference);
-            phaseControl_SetReference(dummy_t);
+            //uint16_t dummy_t = PID((int8_t*)&temp_thermopar,&reference);
+            //phaseControl_SetReference(dummy_t);
             //phaseControl_SetReference(reference_count);
+            set_temp_thermopar(temp_thermopar);
+            set_reference(reference);
             }
             
 

@@ -30,8 +30,8 @@ static PID_OBJ pid_obj;
 
 void PID_Initialize(){
 
-    pid_obj.Ka = 170.95; //80.95
-    pid_obj.Kb = -30.3136;// 10.3136
+    pid_obj.Ka = 40.95; //80.95  170.95
+    pid_obj.Kb = -40.3136;// 10.3136  30.3136
     pid_obj.Kc = .9;
     
     

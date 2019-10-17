@@ -50,7 +50,7 @@
 #include "pin_manager.h"
 #include "slave1.h"
 
-#define EMULATE_EEPROM_SIZE                     6
+//#define EMULATE_EEPROM_SIZE                     6
 static uint8_t EMULATE_EEPROM_Memory[EMULATE_EEPROM_SIZE] =
             {
                 0x01, 0x02, 0x03, 0x04, 0x05 , 0x06
