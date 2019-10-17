@@ -49,6 +49,7 @@
 
 #include <stdio.h>
 #include "tmr1.h"
+#include "ext_int.h"
 #include "pin_manager.h"
 /**
  Section: File specific functions
@@ -94,8 +95,9 @@ void TMR1_Initialize (void)
     TMR1 = 0x00;
     //Period = 0.0000020333 s; Frequency = 90000000 Hz; PR 182; 
     PR1 = 0xB6;
+    //PR1 = 0x98; 
     //TCKPS 1:1; PRWIP Write complete; TMWIP Write complete; TON enabled; TSIDL disabled; TCS FOSC/2; TECS T1CK; TSYNC disabled; TMWDIS disabled; TGATE disabled; 
-    T1CON = 0x8000;
+    T1CON = 0x0000;
 
     if(TMR1_InterruptHandler == NULL)
     {
@@ -118,6 +120,8 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _T1Interrupt (  )
 
     // ticker function call;
     // ticker is 1 -> Callback function gets called everytime this ISR executes
+    IFS0bits.T1IF = false;
+    TMR1 = 0x00;
     if(TMR1_InterruptHandler) 
     { 
            TMR1_InterruptHandler(); 
@@ -127,7 +131,7 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _T1Interrupt (  )
 
     tmr1_obj.count++;
     tmr1_obj.timerElapsed = true;
-    IFS0bits.T1IF = false;
+    //IFS0bits.T1IF = false;
 }
 
 void TMR1_Period16BitSet( uint16_t value )
@@ -161,6 +165,7 @@ void __attribute__ ((weak)) TMR1_CallBack(void)
 {
     // Add your custom callback code here
     LED10_Toggle();
+    TRIAC_TRIGGER_Toggle();
 }
 
 void  TMR1_SetInterruptHandler(void (* InterruptHandler)(void))

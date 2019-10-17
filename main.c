@@ -50,7 +50,10 @@
 #include "lcd.h"
 #include "MAX31855_API.h"
 #include "Thermo5.h"
- 
+#include "PID.h"
+#include "phase_control.h"
+#include "mcc_generated_files/sccp1_tmr.h"
+
  
 int main(void)
 {
@@ -65,10 +68,8 @@ int main(void)
     double temp_2         =   0;
     double temp_3         =   0;
     
-    uint8_t internal_temp_i  =   0;
-    int temp_1_i         =   0;
-    int temp_2_i         =   0;
-    int temp_3_i         =   0;
+    int8_t reference    = 50;
+    uint16_t reference_count = 3200;
     
     //Program and enable slave
     SLAVE1_Program();
@@ -115,6 +116,10 @@ int main(void)
             write_Data_Memory(3,(uint8_t)temp_1);
             write_Data_Memory(4,(uint8_t)temp_2);
             write_Data_Memory(5,(uint8_t)temp_3);
+            
+            uint16_t dummy_t = PID((int8_t*)&temp_thermopar,&reference);
+            phaseControl_SetReference(dummy_t);
+            //phaseControl_SetReference(reference_count);
             }
             
 

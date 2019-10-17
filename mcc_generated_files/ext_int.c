@@ -50,7 +50,7 @@
 
 #include "ext_int.h"
 #include "pin_manager.h"
-
+#include "tmr1.h"
 //***User Area Begin->code: Add External Interrupt handler specific headers 
 
 //***User Area End->code: Add External Interrupt handler specific headers
@@ -63,6 +63,7 @@
 {
     // Add your custom callback code here
      LED9_Toggle();
+     TMR1_Start();
 }
 
 /**

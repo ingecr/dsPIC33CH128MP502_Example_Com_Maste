@@ -52,18 +52,19 @@
 #include "pin_manager.h"
 #include <stdint.h>
 #include <stdbool.h>
-#include "watchdog.h"
-#include "reset.h"
-#include "sccp1_tmr.h"
-#include "i2c1_driver.h"
-#include "spi1.h"
-#include "ext_int.h"
-#include "tmr1.h"
 #include "delay.h"
-#include "interrupt_manager.h"
-#include "traps.h"
+#include "sccp2_tmr.h"
+#include "sccp1_tmr.h"
+#include "watchdog.h"
+#include "tmr1.h"
+#include "ext_int.h"
 #include "slave_typedef.h"
 #include "slave1.h"
+#include "spi1.h"
+#include "i2c1_driver.h"
+#include "interrupt_manager.h"
+#include "traps.h"
+#include "reset.h"
 
 #ifndef _XTAL_FREQ
 #define _XTAL_FREQ  180000000UL

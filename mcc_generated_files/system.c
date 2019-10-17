@@ -57,6 +57,8 @@
 #include "i2c1_driver.h"
 #include "delay.h"
 #include "../Thermo5.h"
+#include "../phase_control.h"
+#include "../PID.h"
 
 void SYSTEM_Initialize(void)
 {
@@ -68,6 +70,8 @@ void SYSTEM_Initialize(void)
     SLAVE1_Initialize();
     SPI1_Initialize();
     TMR1_Initialize();
+    phaseControl_Initialize();
+    PID_Initialize();
     INTERRUPT_GlobalEnable();
     EXT_INT_Initialize();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);

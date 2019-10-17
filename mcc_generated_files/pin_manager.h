@@ -202,6 +202,152 @@
 #define SCK1_SetDigitalOutput() _TRISC2 = 0
 /**
   @Summary
+    Sets the GPIO pin, RD13, high using LATD13.
+
+  @Description
+    Sets the GPIO pin, RD13, high using LATD13.
+
+  @Preconditions
+    The RD13 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RD13 high (1)
+    TRIAC_TRIGGER_SetHigh();
+    </code>
+
+*/
+#define TRIAC_TRIGGER_SetHigh()          _LATD13 = 1
+/**
+  @Summary
+    Sets the GPIO pin, RD13, low using LATD13.
+
+  @Description
+    Sets the GPIO pin, RD13, low using LATD13.
+
+  @Preconditions
+    The RD13 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RD13 low (0)
+    TRIAC_TRIGGER_SetLow();
+    </code>
+
+*/
+#define TRIAC_TRIGGER_SetLow()           _LATD13 = 0
+/**
+  @Summary
+    Toggles the GPIO pin, RD13, using LATD13.
+
+  @Description
+    Toggles the GPIO pin, RD13, using LATD13.
+
+  @Preconditions
+    The RD13 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Toggle RD13
+    TRIAC_TRIGGER_Toggle();
+    </code>
+
+*/
+#define TRIAC_TRIGGER_Toggle()           _LATD13 ^= 1
+/**
+  @Summary
+    Reads the value of the GPIO pin, RD13.
+
+  @Description
+    Reads the value of the GPIO pin, RD13.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    uint16_t portValue;
+
+    // Read RD13
+    postValue = TRIAC_TRIGGER_GetValue();
+    </code>
+
+*/
+#define TRIAC_TRIGGER_GetValue()         _RD13
+/**
+  @Summary
+    Configures the GPIO pin, RD13, as an input.
+
+  @Description
+    Configures the GPIO pin, RD13, as an input.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RD13 as an input
+    TRIAC_TRIGGER_SetDigitalInput();
+    </code>
+
+*/
+#define TRIAC_TRIGGER_SetDigitalInput()  _TRISD13 = 1
+/**
+  @Summary
+    Configures the GPIO pin, RD13, as an output.
+
+  @Description
+    Configures the GPIO pin, RD13, as an output.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RD13 as an output
+    TRIAC_TRIGGER_SetDigitalOutput();
+    </code>
+
+*/
+#define TRIAC_TRIGGER_SetDigitalOutput() _TRISD13 = 0
+/**
+  @Summary
     Sets the GPIO pin, RD3, high using LATD3.
 
   @Description
