@@ -64,7 +64,7 @@
 // FOSC
 #pragma config POSCMD = NONE    //Primary Oscillator Mode Select bits->Primary Oscillator disabled
 #pragma config OSCIOFNC = OFF    //OSC2 Pin Function bit->OSC2 is clock output
-#pragma config FCKSM = CSECMD    //Clock Switching Mode bits->Clock switching is enabled,Fail-safe Clock Monitor is disabled
+#pragma config FCKSM = CSECME    //Clock Switching Mode bits->Both Clock switching and Fail-safe Clock Monitor are enabled
 #pragma config PLLKEN = PLLKEN_ON    //PLLKEN->reserved as PLLKEN_ON
 #pragma config XTCFG = G3    //XT Config->24-32 MHz crystals
 #pragma config XTBST = ENABLE    //XT Boost->Boost the kick-start

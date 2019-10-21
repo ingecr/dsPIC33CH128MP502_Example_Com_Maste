@@ -87,7 +87,7 @@
 #pragma config S1ALTI2C1 = OFF    //Alternate I2C1 Pin bit->I2C1 mapped to SDA1/SCL1 pins
 #pragma config S1SPI1PIN = PPS    //S1 SPI1 Pin Select bit->Slave SPI1 uses I/O remap (PPS) pins
 #pragma config S1SSRE = OFF    //Slave Slave Reset Enable->Slave generated resets will not reset the Slave Enable Bit in the MSI module
-#pragma config S1MSRE = ON    //Master Slave Reset Enable->The master software oriented RESET events (RESET Op-Code, Watchdog timeout, TRAP reset, illegalInstruction) will also cause the slave subsystem to reset.
+#pragma config S1MSRE = OFF    //Master Slave Reset Enable->The master software oriented RESET events (RESET Op-Code, Watchdog timeout, TRAP reset, illegalInstruction) will not cause the slave subsystem to reset.
 
 // FS1ICD
 #pragma config S1ICS = PGD3    //ICD Communication Channel Select bits->Communicate on PGC3 and PGD3

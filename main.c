@@ -83,17 +83,10 @@ int main(void)
  
     
     printf("\fComunication Control \r\n");
- 
-    //Wait for interrupt from slave
-    while(!SLAVE1_IsInterruptRequested());
-    SLAVE1_InterruptRequestAcknowledge();
-    while(SLAVE1_IsInterruptRequested());
-    SLAVE1_InterruptRequestAcknowledgeComplete();   
- 
-    //Mailbox read
-    SLAVE1_ProtocolARead((ProtocolA_DATA*)&dataReceive);
     
  
+
+    
     while (1)
     {
             if(SLAVE1_IsInterruptRequested()){
@@ -103,10 +96,10 @@ int main(void)
             SLAVE1_ProtocolARead((ProtocolA_DATA*)&dataReceive);
             
             write_Data_Memory(0,dataReceive.ProtocolA[0]);
-            reference = dataReceive.ProtocolA[0];
+            //reference = dataReceive.ProtocolA[0];
             
             SLAVE1_InterruptRequestAcknowledgeComplete();  
-                        
+                    
             get_MAX31855_temperatures(&temp_thermopar, &temp_internal);
             
             internal_temp =   Thermo5_ReadTemperature(INTERNAL_DIODE);

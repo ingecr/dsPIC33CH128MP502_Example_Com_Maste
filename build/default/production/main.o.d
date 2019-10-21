@@ -7,20 +7,20 @@ mcc_generated_files/reset_types.h  \
 mcc_generated_files/system_types.h  \
  mcc_generated_files/clock.h  \
 mcc_generated_files/pin_manager.h  \
- mcc_generated_files/delay.h  \
-mcc_generated_files/sccp2_tmr.h  \
- mcc_generated_files/sccp1_tmr.h  \
-mcc_generated_files/watchdog.h  \
- mcc_generated_files/tmr1.h  \
-mcc_generated_files/ext_int.h  \
- mcc_generated_files/slave_typedef.h  \
-mcc_generated_files/slave1.h  \
  mcc_generated_files/spi1.h  \
 mcc_generated_files/i2c1_driver.h  \
+ mcc_generated_files/slave_typedef.h  \
+mcc_generated_files/slave1.h  \
+ mcc_generated_files/sccp1_tmr.h  \
+mcc_generated_files/sccp2_tmr.h  \
  mcc_generated_files/interrupt_manager.h  \
 mcc_generated_files/traps.h  \
- lcd.h  \
-MAX31855_API.h  \
+ mcc_generated_files/tmr1.h  \
+mcc_generated_files/ext_int.h  \
+ mcc_generated_files/watchdog.h  \
+mcc_generated_files/delay.h  \
+lcd.h  \
+ MAX31855_API.h  \
 mcc_generated_files/spi1.h  \
  mcc_generated_files/pin_manager.h  \
 Thermo5.h  \

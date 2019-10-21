@@ -105,8 +105,8 @@ void SCCP2_TMR_Initialize(void)
     CCP2TMRL = 0x00;
     //TMR 0; 
     CCP2TMRH = 0x00;
-    //PR 14061; 
-    CCP2PRL = 0x36ED;
+    //PR 26349; 
+    CCP2PRL = 0x66ED;
     //PR 0; 
     CCP2PRH = 0x00;
     //CMP 0; 
