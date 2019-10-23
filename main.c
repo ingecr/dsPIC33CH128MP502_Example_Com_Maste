@@ -96,7 +96,9 @@ int main(void)
             SLAVE1_ProtocolARead((ProtocolA_DATA*)&dataReceive);
             
             write_Data_Memory(0,dataReceive.ProtocolA[0]);
-            //reference = dataReceive.ProtocolA[0];
+            reference = dataReceive.ProtocolA[0];
+            if (reference != 50) LED7_SetHigh();
+            else LED7_SetLow();
             
             SLAVE1_InterruptRequestAcknowledgeComplete();  
                     
@@ -107,7 +109,8 @@ int main(void)
             temp_2        =   Thermo5_ReadTemperature(DIODE_2);
             temp_3        =   Thermo5_ReadTemperature(DIODE_3);
             
-            write_Data_Memory(1,temp_thermopar);
+            write_Data_Memory(0,(uint8_t)reference);
+            write_Data_Memory(1,(uint8_t)temp_thermopar);
             write_Data_Memory(2,(uint8_t)internal_temp);
             write_Data_Memory(3,(uint8_t)temp_1);
             write_Data_Memory(4,(uint8_t)temp_2);
@@ -116,8 +119,7 @@ int main(void)
             //uint16_t dummy_t = PID((int8_t*)&temp_thermopar,&reference);
             //phaseControl_SetReference(dummy_t);
             //phaseControl_SetReference(reference_count);
-            set_temp_thermopar(temp_thermopar);
-            set_reference(reference);
+            
             }
             
 

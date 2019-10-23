@@ -58,8 +58,6 @@
     extern "C" {
 
 #endif
-void set_temp_thermopar (uint16_t temp);
-void set_reference (int8_t ref);
 /**
   Section: Interface Routines
 */

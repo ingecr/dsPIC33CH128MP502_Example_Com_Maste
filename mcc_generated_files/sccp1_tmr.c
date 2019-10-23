@@ -157,7 +157,7 @@ void __attribute__ ((weak)) SCCP1_TMR_Timer32CallBack(void)
     // Add your custom callback code here
     //LED10_Toggle();
     ProtocolB_DATA dataSend;
-    dataSend.ProtocolB[0] = read_Data_Memory(1);     
+    dataSend.ProtocolB[0] = (uint16_t)read_Data_Memory(0) + ((uint16_t)read_Data_Memory(1) << 8);  
     dataSend.ProtocolB[1] = (uint16_t)read_Data_Memory(2) + ((uint16_t)read_Data_Memory(3) << 8); 
     dataSend.ProtocolB[2] = (uint16_t)read_Data_Memory(4) + ((uint16_t)read_Data_Memory(5) << 8); 
  

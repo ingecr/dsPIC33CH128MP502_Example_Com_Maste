@@ -49,6 +49,7 @@
 #include "sccp2_tmr.h"
 #include "../phase_control.h"
 #include "../PID.h"
+#include "sccp1_tmr.h"
 
 /**
   Section: Data Type Definitions
@@ -57,14 +58,6 @@
 uint16_t temp_thermopar =   20;
 int8_t reference    = 50;
 
-void set_temp_thermopar (uint16_t temp)
-{
-    temp_thermopar = temp;
-}
-void set_reference (int8_t ref)
-{
-    reference = ref;
-}
 
 /**
   SCCP2 Driver Hardware Instance Object
@@ -152,6 +145,8 @@ void SCCP2_TMR_Stop( void )
 void __attribute__ ((weak)) SCCP2_TMR_PrimaryTimerCallBack(void)
 {
     // Add your custom callback code here
+    reference = read_Data_Memory(0);
+    temp_thermopar = read_Data_Memory(1);
     uint16_t dummy_t = PID((int8_t*)&temp_thermopar,&reference);
     phaseControl_SetReference(dummy_t);
 }
