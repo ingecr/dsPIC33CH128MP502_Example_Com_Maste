@@ -36,7 +36,7 @@
 #include "spi1.h"
 #include "pin_manager.h" 
 
-void get_MAX31855_temperatures(uint16_t* thermocoupleTemp, uint16_t* internalTemp);
+void get_MAX31855_temperatures(int16_t* thermocoupleTemp, int16_t* internalTemp);
 
 
 #ifdef	__cplusplus

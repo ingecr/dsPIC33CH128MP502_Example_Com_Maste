@@ -13,10 +13,10 @@
 
 #define MAX31855_BYTES 4
 
-void get_MAX31855_temperatures(uint16_t* thermocoupleTemp, uint16_t* internalTemp){
+void get_MAX31855_temperatures(int16_t* thermocoupleTemp, int16_t* internalTemp){
 
-    uint16_t MAX31855_dataBuffer[MAX31855_BYTES/2];
-    uint16_t dummyData = 0x0295;
+    int16_t MAX31855_dataBuffer[MAX31855_BYTES/2];
+    int16_t dummyData = 0x0295;
     //SS1_ON();
     _LATD3 = 0;
     int i;
@@ -26,7 +26,17 @@ void get_MAX31855_temperatures(uint16_t* thermocoupleTemp, uint16_t* internalTem
     }
     //SS1_OFF();
     _LATD3 = 1;
-    *((uint16_t*)thermocoupleTemp)   = MAX31855_dataBuffer[0] >> 5;
-    *((uint16_t*)internalTemp  )     = MAX31855_dataBuffer[1] >> 9;
+    if((MAX31855_dataBuffer[0] & (0b1000000000000000)) > 1)
+    {
+        *((int16_t*)thermocoupleTemp)   = ((!MAX31855_dataBuffer[0]) >> 5)*(-1);
+        *((int16_t*)internalTemp  )     = ((!MAX31855_dataBuffer[1]) >> 9)*(-1);
+    }
+    else
+    {
+        *((int16_t*)thermocoupleTemp)   = MAX31855_dataBuffer[0] >> 5;
+        *((int16_t*)internalTemp  )     = MAX31855_dataBuffer[1] >> 9;
+    }
+    
+    
 
 }

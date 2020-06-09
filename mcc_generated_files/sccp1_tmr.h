@@ -58,11 +58,11 @@
     extern "C" {
 
 #endif
-#define EMULATE_EEPROM_SIZE                     6
+#define EMULATE_EEPROM_SIZE                     13
 
 
-uint8_t read_Data_Memory(uint8_t adress);
-void write_Data_Memory(uint8_t adress , uint8_t data);
+int8_t read_Data_Memory(uint8_t adress);
+void write_Data_Memory(uint8_t adress , int8_t data);
 /**
   Section: Interface Routines
 */

@@ -48,9 +48,9 @@
 #pragma config MBXM1 = M2S    //Mailbox 1 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
 #pragma config MBXM2 = M2S    //Mailbox 2 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
 #pragma config MBXM3 = M2S    //Mailbox 3 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
-#pragma config MBXM4 = S2M    //Mailbox 4 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
-#pragma config MBXM5 = S2M    //Mailbox 5 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
-#pragma config MBXM6 = S2M    //Mailbox 6 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
+#pragma config MBXM4 = M2S    //Mailbox 4 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
+#pragma config MBXM5 = M2S    //Mailbox 5 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
+#pragma config MBXM6 = M2S    //Mailbox 6 data direction->Mailbox register configured for Master data write (Master to Slave data transfer)
 #pragma config MBXM7 = S2M    //Mailbox 7 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
 #pragma config MBXM8 = S2M    //Mailbox 8 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
 #pragma config MBXM9 = S2M    //Mailbox 9 data direction->Mailbox register configured for Master data read (Slave to Master data transfer)
@@ -63,7 +63,7 @@
 
 // FMBXHS1
 #pragma config MBXHSA = MBX0    //Mailbox handshake protocol block A register assignment->MSIxMBXD0 assigned to mailbox handshake protocol block A
-#pragma config MBXHSB = MBX3    //Mailbox handshake protocol block B register assignment->MSIxMBXD3 assigned to mailbox handshake protocol block B
+#pragma config MBXHSB = MBX6    //Mailbox handshake protocol block B register assignment->MSIxMBXD6 assigned to mailbox handshake protocol block B
 #pragma config MBXHSC = MBX15    //Mailbox handshake protocol block C register assignment->MSIxMBXD15 assigned to mailbox handshake protocol block C
 #pragma config MBXHSD = MBX15    //Mailbox handshake protocol block D register assignment->MSIxMBXD15 assigned to mailbox handshake protocol block D
 
@@ -314,7 +314,7 @@ void __attribute__ ((interrupt, no_auto_psv)) _MSIAInterrupt(void)
 void __attribute__ ((weak)) SLAVE1_ProtocolACallBack(void)
 {
     //My code
-    //LED3_Toggle(); 
+    LED3_Toggle(); 
    
 }
 
@@ -335,6 +335,9 @@ bool SLAVE1_ProtocolBWrite(ProtocolB_DATA *pData)
         MSI1MBX1D = pData->ProtocolB[0];
         MSI1MBX2D = pData->ProtocolB[1];
         MSI1MBX3D = pData->ProtocolB[2];
+        MSI1MBX4D = pData->ProtocolB[3];
+        MSI1MBX5D = pData->ProtocolB[4];
+        MSI1MBX6D = pData->ProtocolB[5];
 
         status = true;
     }	

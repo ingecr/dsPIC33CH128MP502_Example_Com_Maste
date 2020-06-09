@@ -91,7 +91,7 @@ typedef struct ProtocolA_DATA_STRUCT
 
 typedef struct ProtocolB_DATA_STRUCT
 {
-    uint16_t    ProtocolB[3];
+    uint16_t    ProtocolB[6];
 
 } ProtocolB_DATA; 
         

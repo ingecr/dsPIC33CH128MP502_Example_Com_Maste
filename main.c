@@ -61,10 +61,10 @@ int main(void)
 {
     // initialize the device
     SYSTEM_Initialize();
-    LCD_Initialize();
+    //LCD_Initialize();
     
-    uint16_t temp_thermopar =   0;
-    uint16_t temp_internal  =   0;
+    int16_t temp_thermopar =   0;
+    int16_t temp_internal  =   0;
     double internal_temp  =   0;
     double temp_1         =   0;
     double temp_2         =   0;
@@ -82,7 +82,7 @@ int main(void)
     dataReceive.ProtocolA[0] = 0;
  
     
-    printf("\fComunication Control \r\n");
+    //printf("\fComunication Control \r\n");
     
  
 
@@ -97,8 +97,6 @@ int main(void)
             
             write_Data_Memory(0,dataReceive.ProtocolA[0]);
             reference = dataReceive.ProtocolA[0];
-            if (reference != 50) LED7_SetHigh();
-            else LED7_SetLow();
             
             SLAVE1_InterruptRequestAcknowledgeComplete();  
                     
@@ -109,17 +107,17 @@ int main(void)
             temp_2        =   Thermo5_ReadTemperature(DIODE_2);
             temp_3        =   Thermo5_ReadTemperature(DIODE_3);
             
-            write_Data_Memory(0,(uint8_t)reference);
-            write_Data_Memory(1,(uint8_t)temp_thermopar);
-            write_Data_Memory(2,(uint8_t)internal_temp);
-            write_Data_Memory(3,(uint8_t)temp_1);
-            write_Data_Memory(4,(uint8_t)temp_2);
-            write_Data_Memory(5,(uint8_t)temp_3);
+            write_Data_Memory(0,(int8_t)reference);
+            write_Data_Memory(1,(int8_t)temp_thermopar);
+            write_Data_Memory(2,(int8_t)internal_temp);
+            write_Data_Memory(3,(int8_t)temp_1);
+            write_Data_Memory(4,(int8_t)temp_2);
+            write_Data_Memory(5,(int8_t)temp_3);
             
             //uint16_t dummy_t = PID((int8_t*)&temp_thermopar,&reference);
             //phaseControl_SetReference(dummy_t);
             //phaseControl_SetReference(reference_count);
-            
+             
             }
             
 

@@ -51,16 +51,16 @@
 #include "slave1.h"
 
 //#define EMULATE_EEPROM_SIZE                     6
-static uint8_t EMULATE_EEPROM_Memory[EMULATE_EEPROM_SIZE] =
+static int8_t EMULATE_EEPROM_Memory[EMULATE_EEPROM_SIZE] =
             {
-                0x01, 0x02, 0x03, 0x04, 0x05 , 0x06
+                0x96, 0x96,0x96,0x96,0x96,0x96,0x96,0x96,0x96,0x96,0x96,0x96,0x96
             };
 
-uint8_t read_Data_Memory(uint8_t adress)
+int8_t read_Data_Memory(uint8_t adress)
     {
         return EMULATE_EEPROM_Memory[adress];
     }
-    void write_Data_Memory(uint8_t adress , uint8_t data)
+    void write_Data_Memory(uint8_t adress , int8_t data)
     {
         EMULATE_EEPROM_Memory[adress] = data;
     }
@@ -160,7 +160,7 @@ void __attribute__ ((weak)) SCCP1_TMR_Timer32CallBack(void)
     dataSend.ProtocolB[0] = (uint16_t)read_Data_Memory(0) + ((uint16_t)read_Data_Memory(1) << 8);  
     dataSend.ProtocolB[1] = (uint16_t)read_Data_Memory(2) + ((uint16_t)read_Data_Memory(3) << 8); 
     dataSend.ProtocolB[2] = (uint16_t)read_Data_Memory(4) + ((uint16_t)read_Data_Memory(5) << 8); 
- 
+    
     //Mailbox write 
     SLAVE1_ProtocolBWrite((ProtocolB_DATA*)&dataSend);
  
